@@ -1,10 +1,10 @@
 import itertools
 
-# def format_set(S):
-#     if not S:
-#         return "∅"       # hoặc "" nếu bạn chỉ muốn trống hẳn
-#     else:
-#         return "{" + ", ".join(S) + "}"
+def format_set(S):
+    if not S:
+        return "∅"       # hoặc "" nếu bạn chỉ muốn trống hẳn
+    else:
+        return "{" + ", ".join(S) + "}"
     
 def parse_af(file):
     args, attacks = [], []
