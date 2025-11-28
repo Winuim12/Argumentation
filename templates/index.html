@@ -1,0 +1,59 @@
+<!-- templates/index.html -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>AF Interactive</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- Cytoscape CDN -->
+  <script src="https://unpkg.com/cytoscape@3.24.0/dist/cytoscape.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Argumentation Framework - Interactive</h1>
+
+    <form action="{{ url_for('compute') }}" method="post" enctype="multipart/form-data">
+      <label>Paste AF (example arg(a). att(a,b).):</label>
+      <textarea name="aftext" rows="8" placeholder="arg(a). arg(b). att(a,b).">{{ raw_text if raw_text is defined else '' }}</textarea>
+
+      <label>Or upload file .af:</label>
+      <input type="file" name="affile" accept=".af,.txt" />
+
+      <button type="submit">Compute</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, msg in messages %}
+            <li class="{{ category }}">{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% if args is defined %}
+      <section class="results">
+        <h2>Results</h2>
+        <p><strong>Arguments:</strong> {{ args }}</p>
+        <p><strong>Attacks:</strong> {{ attacks }}</p>
+        <p><strong>Complete:</strong> {{ complete }}</p>
+        <p><strong>Preferred:</strong> {{ preferred }}</p>
+        <p><strong>Stable:</strong> {{ stable }}</p>
+      </section>
+
+      <section>
+        <h2>Graph (click & drag to move nodes)</h2>
+        <div id="cy" style="width:100%; height:500px; border:1px solid #ccc;"></div>
+      </section>
+    {% endif %}
+  </div>
+
+  <script>
+    // embed cy data into page for JS to pick up
+    const CY_NODES = {{ cy_nodes|tojson | safe if cy_nodes is defined else '[]' }};
+    const CY_EDGES = {{ cy_edges|tojson | safe if cy_edges is defined else '[]' }};
+  </script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

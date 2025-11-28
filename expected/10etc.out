@@ -1,0 +1,3 @@
+COMPLETE: {a, c},{a, d},{a},{b, d},{d},∅
+PREFERRED: {a, c},{a, d},{b, d}
+STABLE: {a, c},{a, d},{b, d}

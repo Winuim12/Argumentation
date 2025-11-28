@@ -4,10 +4,10 @@ import re
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from dotenv import load_dotenv
 import extenstions as exts
-
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "dev-key")  # fallback nếu chưa set
+app.secret_key = os.environ["SECRET_KEY"]
 
 def parse_af_text(text):
     args = set()
